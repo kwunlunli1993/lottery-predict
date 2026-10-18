@@ -1,0 +1,307 @@
+[
+  {
+    "key": "macau_2026290",
+    "region": "macau",
+    "date": "2026-10-17",
+    "expect": "2026290",
+    "long_miss": [
+      "豬"
+    ],
+    "frequent_next": [
+      {
+        "zodiac": "蛇",
+        "count": 7
+      },
+      {
+        "zodiac": "馬",
+        "count": 4
+      }
+    ],
+    "actual_zodiacs": [
+      "豬",
+      "狗",
+      "虎",
+      "龍",
+      "鼠",
+      "蛇",
+      "兔"
+    ],
+    "hit_long_miss": true,
+    "hit_frequent": true,
+    "next_expect": "2026290"
+  },
+  {
+    "key": "macau_2026289",
+    "region": "macau",
+    "date": "2026-10-16",
+    "expect": "2026289",
+    "long_miss": [],
+    "frequent_next": [
+      {
+        "zodiac": "蛇",
+        "count": 5
+      },
+      {
+        "zodiac": "猴",
+        "count": 4
+      },
+      {
+        "zodiac": "馬",
+        "count": 3
+      },
+      {
+        "zodiac": "虎",
+        "count": 3
+      }
+    ],
+    "actual_zodiacs": [
+      "羊",
+      "虎",
+      "鼠",
+      "兔",
+      "猴",
+      "雞",
+      "蛇"
+    ],
+    "hit_long_miss": null,
+    "hit_frequent": true
+  },
+  {
+    "key": "macau_2026288",
+    "region": "macau",
+    "date": "2026-10-15",
+    "expect": "2026288",
+    "long_miss": [],
+    "frequent_next": [
+      {
+        "zodiac": "蛇",
+        "count": 6
+      },
+      {
+        "zodiac": "馬",
+        "count": 4
+      }
+    ],
+    "actual_zodiacs": [
+      "蛇",
+      "羊",
+      "虎",
+      "虎",
+      "雞",
+      "狗",
+      "馬"
+    ],
+    "hit_long_miss": null,
+    "hit_frequent": true
+  },
+  {
+    "key": "macau_2026287",
+    "region": "macau",
+    "date": "2026-10-14",
+    "expect": "2026287",
+    "long_miss": [],
+    "frequent_next": [
+      {
+        "zodiac": "蛇",
+        "count": 5
+      },
+      {
+        "zodiac": "猴",
+        "count": 3
+      }
+    ],
+    "actual_zodiacs": [
+      "鼠",
+      "猴",
+      "蛇",
+      "猴",
+      "牛",
+      "虎",
+      "豬"
+    ],
+    "hit_long_miss": null,
+    "hit_frequent": true
+  },
+  {
+    "key": "macau_2026286",
+    "region": "macau",
+    "date": "2026-10-13",
+    "expect": "2026286",
+    "long_miss": [
+      "虎"
+    ],
+    "frequent_next": [
+      {
+        "zodiac": "蛇",
+        "count": 6
+      },
+      {
+        "zodiac": "馬",
+        "count": 3
+      }
+    ],
+    "actual_zodiacs": [
+      "馬",
+      "馬",
+      "兔",
+      "豬",
+      "虎",
+      "馬",
+      "羊"
+    ],
+    "hit_long_miss": true,
+    "hit_frequent": true
+  },
+  {
+    "key": "macau_2026291",
+    "region": "macau",
+    "date": "2026-10-18",
+    "expect": "2026291",
+    "based_on": "2026290",
+    "long_miss": [],
+    "frequent_next": [
+      {
+        "zodiac": "蛇",
+        "count": 6
+      },
+      {
+        "zodiac": "馬",
+        "count": 5
+      },
+      {
+        "zodiac": "羊",
+        "count": 3
+      },
+      {
+        "zodiac": "豬",
+        "count": 3
+      }
+    ],
+    "next_expect": "2026291",
+    "actual_zodiacs": [
+      "豬",
+      "雞",
+      "虎",
+      "蛇",
+      "雞",
+      "蛇",
+      "虎"
+    ],
+    "hit_long_miss": null,
+    "hit_frequent": true
+  },
+  {
+    "key": "hk_2026112",
+    "region": "hk",
+    "date": "2026-10-20",
+    "expect": "2026112",
+    "based_on": "2026111",
+    "long_miss": [],
+    "frequent_next": [
+      {
+        "zodiac": "蛇",
+        "count": 4
+      },
+      {
+        "zodiac": "馬",
+        "count": 3
+      },
+      {
+        "zodiac": "雞",
+        "count": 3
+      }
+    ],
+    "next_expect": null,
+    "actual_zodiacs": [
+      "龍",
+      "鼠",
+      "牛",
+      "鼠",
+      "豬",
+      "雞",
+      "狗"
+    ],
+    "hit_long_miss": null,
+    "hit_frequent": null
+  },
+  {
+    "key": "macau_2026292",
+    "region": "macau",
+    "date": "2026-10-19",
+    "expect": "2026292",
+    "based_on": "2026291",
+    "long_miss": [
+      "馬"
+    ],
+    "frequent_next": [
+      {
+        "zodiac": "蛇",
+        "count": 4
+      },
+      {
+        "zodiac": "虎",
+        "count": 3
+      }
+    ],
+    "next_expect": null,
+    "actual_zodiacs": null,
+    "hit_long_miss": null,
+    "hit_frequent": null
+  },
+  {
+    "key": "oldmacau_2026291",
+    "region": "oldmacau",
+    "date": "2026-10-18",
+    "expect": "2026291",
+    "based_on": "2026290",
+    "long_miss": [],
+    "frequent_next": [
+      {
+        "zodiac": "狗",
+        "count": 6
+      },
+      {
+        "zodiac": "馬",
+        "count": 5
+      },
+      {
+        "zodiac": "蛇",
+        "count": 4
+      }
+    ],
+    "next_expect": "2026291",
+    "actual_zodiacs": [
+      "蛇",
+      "兔",
+      "猴",
+      "龍",
+      "牛",
+      "豬",
+      "牛"
+    ],
+    "hit_long_miss": null,
+    "hit_frequent": true
+  },
+  {
+    "key": "oldmacau_2026292",
+    "region": "oldmacau",
+    "date": "2026-10-19",
+    "expect": "2026292",
+    "based_on": "2026291",
+    "long_miss": [],
+    "frequent_next": [
+      {
+        "zodiac": "狗",
+        "count": 6
+      },
+      {
+        "zodiac": "馬",
+        "count": 5
+      }
+    ],
+    "next_expect": null,
+    "actual_zodiacs": null,
+    "hit_long_miss": null,
+    "hit_frequent": null
+  }
+]
