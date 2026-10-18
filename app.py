@@ -422,7 +422,7 @@ h2 { margin: 0 0 8px 0; font-size: 1.05em; }
     {% if next_date %}
     <div class="next-date">{{ next_date }}</div>
     {% endif %}
-    <h2>李大師預測（{{ '新澳門' if region == 'macau' else '舊澳門' if region == 'oldmacau' else '香港' }}）</h2>
+    <h2>王大師預測（{{ '新澳門' if region == 'macau' else '舊澳門' if region == 'oldmacau' else '香港' }}）</h2>
     <div class="recommend">
       <h3>遺漏回補</h3>
       {% if long_miss_recs %}
@@ -1099,7 +1099,7 @@ def macau():
 
     return render_template_string(
         HTML,
-        title="李大師六合彩預測（新澳門）",
+        title="王大師六合彩預測（新澳門）",
         region="macau",
         note_extra="新澳門版顯示 2025-2026 和 2026 接續熱門統計。",
         **result
@@ -1161,7 +1161,7 @@ def old_macau():
 
     return render_template_string(
         HTML,
-        title="李大師六合彩預測（舊澳門）",
+        title="王大師六合彩預測（舊澳門）",
         region="oldmacau",
         note_extra="舊澳門版顯示 2025-2026 和 2026 接續熱門統計。",
         **result
@@ -1223,7 +1223,7 @@ def hk():
 
     return render_template_string(
         HTML,
-        title="李大師六合彩預測（香港）",
+        title="王大師六合彩預測（香港）",
         region="hk",
         note_extra="香港版顯示 2025-2026 和 2026 接續熱門統計。",
         **result
@@ -1297,7 +1297,7 @@ def records_page():
 
     return render_template_string(
         HTML,
-        title="李大師預測記錄",
+        title="王大師預測記錄",
         region="records",
         note_extra="預測記錄自 2026-10-13 開始自動保存。",
         macau_records=macau_stats["records"],
