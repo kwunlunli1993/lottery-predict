@@ -660,7 +660,8 @@ h2 { margin: 0 0 8px 0; font-size: 1.05em; }
 <p style="font-size:0.9em; color:#666;">總記錄：{{ macau_settled }} 筆　已開獎：{{ macau_settled }} 筆<br>
 遺漏回補命中率：{{ "%.1f"|format(macau_long_miss_rate) }}%（{{ macau_long_miss_hits }}/{{ macau_long_miss_total }}）<br>
 接續熱門命中率：{{ "%.1f"|format(macau_frequent_rate) }}%（{{ macau_frequent_hits }}/{{ macau_frequent_total }}）<br>
-總命中率：{{ "%.1f"|format(macau_total_rate) }}%（{{ macau_total_hits }}/{{ macau_total_predictions }}）</p>
+總命中率：{{ "%.1f"|format(macau_total_rate) }}%（{{ macau_total_hits }}/{{ macau_total_predictions }}）<br>
+1/4 Kelly：{{ "%.1f"|format(macau_kelly) }}%</p>
 <table>
 <tr>
   <th>日期</th>
@@ -717,7 +718,8 @@ h2 { margin: 0 0 8px 0; font-size: 1.05em; }
 <p style="font-size:0.9em; color:#666;">總記錄：{{ oldmacau_settled }} 筆　已開獎：{{ oldmacau_settled }} 筆<br>
 遺漏回補命中率：{{ "%.1f"|format(oldmacau_long_miss_rate) }}%（{{ oldmacau_long_miss_hits }}/{{ oldmacau_long_miss_total }}）<br>
 接續熱門命中率：{{ "%.1f"|format(oldmacau_frequent_rate) }}%（{{ oldmacau_frequent_hits }}/{{ oldmacau_frequent_total }}）<br>
-總命中率：{{ "%.1f"|format(oldmacau_total_rate) }}%（{{ oldmacau_total_hits }}/{{ oldmacau_total_predictions }}）</p>
+總命中率：{{ "%.1f"|format(oldmacau_total_rate) }}%（{{ oldmacau_total_hits }}/{{ oldmacau_total_predictions }}）<br>
+1/4 Kelly：{{ "%.1f"|format(oldmacau_kelly) }}%</p>
 <table>
 <tr>
   <th>日期</th>
@@ -774,7 +776,8 @@ h2 { margin: 0 0 8px 0; font-size: 1.05em; }
 <p style="font-size:0.9em; color:#666;">總記錄：{{ hk_settled }} 筆　已開獎：{{ hk_settled }} 筆<br>
 遺漏回補命中率：{{ "%.1f"|format(hk_long_miss_rate) }}%（{{ hk_long_miss_hits }}/{{ hk_long_miss_total }}）<br>
 接續熱門命中率：{{ "%.1f"|format(hk_frequent_rate) }}%（{{ hk_frequent_hits }}/{{ hk_frequent_total }}）<br>
-總命中率：{{ "%.1f"|format(hk_total_rate) }}%（{{ hk_total_hits }}/{{ hk_total_predictions }}）</p>
+總命中率：{{ "%.1f"|format(hk_total_rate) }}%（{{ hk_total_hits }}/{{ hk_total_predictions }}）<br>
+1/4 Kelly：{{ "%.1f"|format(hk_kelly) }}%</p>
 <table>
 <tr>
   <th>日期</th>
@@ -1347,6 +1350,7 @@ def records_page():
         total_hits = long_miss_hits + frequent_hits
         total_predictions = long_miss_total + frequent_total
         total_rate = (total_hits / total_predictions * 100) if total_predictions else 0
+        kelly = ((total_rate - (100 - total_rate)) / 4) if total_predictions else 0
 
         return {
             "records": records,
@@ -1360,6 +1364,7 @@ def records_page():
             "total_hits": total_hits,
             "total_predictions": total_predictions,
             "total_rate": total_rate,
+            "kelly": kelly,
         }
 
     macau_stats = calc_stats(macau_records)
@@ -1382,6 +1387,7 @@ def records_page():
         macau_total_hits=macau_stats["total_hits"],
         macau_total_predictions=macau_stats["total_predictions"],
         macau_total_rate=macau_stats["total_rate"],
+        macau_kelly=macau_stats["kelly"],
         oldmacau_records=oldmacau_stats["records"],
         oldmacau_settled=oldmacau_stats["settled"],
         oldmacau_long_miss_hits=oldmacau_stats["long_miss_hits"],
@@ -1393,6 +1399,7 @@ def records_page():
         oldmacau_total_hits=oldmacau_stats["total_hits"],
         oldmacau_total_predictions=oldmacau_stats["total_predictions"],
         oldmacau_total_rate=oldmacau_stats["total_rate"],
+        oldmacau_kelly=oldmacau_stats["kelly"],
         hk_records=hk_stats["records"],
         hk_settled=hk_stats["settled"],
         hk_long_miss_hits=hk_stats["long_miss_hits"],
@@ -1404,6 +1411,7 @@ def records_page():
         hk_total_hits=hk_stats["total_hits"],
         hk_total_predictions=hk_stats["total_predictions"],
         hk_total_rate=hk_stats["total_rate"],
+        hk_kelly=hk_stats["kelly"],
         latest=None,
         next_date="",
         long_miss_recs=[],
