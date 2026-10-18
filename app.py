@@ -677,9 +677,8 @@ h2 { margin: 0 0 8px 0; font-size: 1.05em; }
   <td>{{ r.expect }}</td>
   <td>
     {% if r.long_miss %}
-      {% set actual_set = r.actual_zodiacs | unique | list if r.actual_zodiacs else [] %}
       {% for z in r.long_miss %}
-        {% if z in actual_set %}<span class="match-green">{{ z }}</span>{% else %}{{ z }}{% endif %}{% if not loop.last %}、{% endif %}
+        <span class="zodiac-hot">{{ z }}</span>{% if not loop.last %}、{% endif %}
       {% endfor %}
     {% else %}
       /
@@ -700,7 +699,7 @@ h2 { margin: 0 0 8px 0; font-size: 1.05em; }
       {% set long_set = r.long_miss | list %}
       {% set freq_set = r.frequent_next | map(attribute='zodiac') | list %}
       {% for z in r.actual_zodiacs %}
-        {% if z in long_set or z in freq_set %}<span class="match-green">{{ z }}</span>{% else %}{{ z }}{% endif %}{% if not loop.last %}、{% endif %}
+        {% if z in long_set %}<span class="zodiac-hot">{{ z }}</span>{% elif z in freq_set %}<span class="match-green">{{ z }}</span>{% else %}{{ z }}{% endif %}{% if not loop.last %}、{% endif %}
       {% endfor %}
     {% else %}
       <span class="zodiac-hot">未開獎</span>
@@ -735,9 +734,8 @@ h2 { margin: 0 0 8px 0; font-size: 1.05em; }
   <td>{{ r.expect }}</td>
   <td>
     {% if r.long_miss %}
-      {% set actual_set = r.actual_zodiacs | unique | list if r.actual_zodiacs else [] %}
       {% for z in r.long_miss %}
-        {% if z in actual_set %}<span class="match-green">{{ z }}</span>{% else %}{{ z }}{% endif %}{% if not loop.last %}、{% endif %}
+        <span class="zodiac-hot">{{ z }}</span>{% if not loop.last %}、{% endif %}
       {% endfor %}
     {% else %}
       /
@@ -758,7 +756,7 @@ h2 { margin: 0 0 8px 0; font-size: 1.05em; }
       {% set long_set = r.long_miss | list %}
       {% set freq_set = r.frequent_next | map(attribute='zodiac') | list %}
       {% for z in r.actual_zodiacs %}
-        {% if z in long_set or z in freq_set %}<span class="match-green">{{ z }}</span>{% else %}{{ z }}{% endif %}{% if not loop.last %}、{% endif %}
+        {% if z in long_set %}<span class="zodiac-hot">{{ z }}</span>{% elif z in freq_set %}<span class="match-green">{{ z }}</span>{% else %}{{ z }}{% endif %}{% if not loop.last %}、{% endif %}
       {% endfor %}
     {% else %}
       <span class="zodiac-hot">未開獎</span>
@@ -793,9 +791,8 @@ h2 { margin: 0 0 8px 0; font-size: 1.05em; }
   <td>{{ r.expect }}</td>
   <td>
     {% if r.long_miss %}
-      {% set actual_set = r.actual_zodiacs | unique | list if r.actual_zodiacs else [] %}
       {% for z in r.long_miss %}
-        {% if z in actual_set %}<span class="match-green">{{ z }}</span>{% else %}{{ z }}{% endif %}{% if not loop.last %}、{% endif %}
+        <span class="zodiac-hot">{{ z }}</span>{% if not loop.last %}、{% endif %}
       {% endfor %}
     {% else %}
       /
@@ -816,7 +813,7 @@ h2 { margin: 0 0 8px 0; font-size: 1.05em; }
       {% set long_set = r.long_miss | list %}
       {% set freq_set = r.frequent_next | map(attribute='zodiac') | list %}
       {% for z in r.actual_zodiacs %}
-        {% if z in long_set or z in freq_set %}<span class="match-green">{{ z }}</span>{% else %}{{ z }}{% endif %}{% if not loop.last %}、{% endif %}
+        {% if z in long_set %}<span class="zodiac-hot">{{ z }}</span>{% elif z in freq_set %}<span class="match-green">{{ z }}</span>{% else %}{{ z }}{% endif %}{% if not loop.last %}、{% endif %}
       {% endfor %}
     {% else %}
       <span class="zodiac-hot">未開獎</span>
