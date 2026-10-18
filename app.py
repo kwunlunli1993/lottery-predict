@@ -7,6 +7,8 @@ import urllib3
 import re
 import json
 import os
+import psycopg2
+from psycopg2.extras import RealDictCursor
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -14,7 +16,7 @@ app = Flask(__name__)
 
 headers = {"User-Agent": "Mozilla/5.0"}
 ZODIACS = ["鼠", "牛", "虎", "兔", "龍", "蛇", "馬", "羊", "猴", "雞", "狗", "豬"]
-RECORDS_FILE = "recommendation_records.json"
+DATABASE_URL = os.environ.get("DATABASE_URL", "postgresql://lottery_db_ij11_user:JaMLl91GOB9RLE04JfpxD4Cg6fJh1Bof@dpg-dbag28jrjlhs73a4p8n0-a/lottery_db_ij11")
 START_DATE = "2026-10-13"
 
 SIMP_TO_TRAD = {
@@ -51,18 +53,90 @@ MAP_2026 = {
 
 YEAR_MAPS = {2025: MAP_2025, 2026: MAP_2026}
 
+def get_db():
+    return psycopg2.connect(DATABASE_URL)
+
+def init_db():
+    conn = get_db()
+    cur = conn.cursor()
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS records (
+            key TEXT PRIMARY KEY,
+            region TEXT,
+            date TEXT,
+            expect TEXT,
+            based_on TEXT,
+            long_miss TEXT,
+            frequent_next TEXT,
+            next_expect TEXT,
+            actual_zodiacs TEXT,
+            hit_long_miss BOOLEAN,
+            hit_frequent BOOLEAN
+        )
+    """)
+    conn.commit()
+    cur.close()
+    conn.close()
+
 def load_records():
-    if os.path.exists(RECORDS_FILE):
-        try:
-            with open(RECORDS_FILE, "r", encoding="utf-8") as f:
-                return json.load(f)
-        except:
-            return []
-    return []
+    try:
+        conn = get_db()
+        cur = conn.cursor(cursor_factory=RealDictCursor)
+        cur.execute("SELECT * FROM records")
+        rows = cur.fetchall()
+        cur.close()
+        conn.close()
+        result = []
+        for r in rows:
+            result.append({
+                "key": r["key"],
+                "region": r["region"],
+                "date": r["date"],
+                "expect": r["expect"],
+                "based_on": r["based_on"],
+                "long_miss": json.loads(r["long_miss"]) if r["long_miss"] else [],
+                "frequent_next": json.loads(r["frequent_next"]) if r["frequent_next"] else [],
+                "next_expect": r["next_expect"],
+                "actual_zodiacs": json.loads(r["actual_zodiacs"]) if r["actual_zodiacs"] else None,
+                "hit_long_miss": r["hit_long_miss"],
+                "hit_frequent": r["hit_frequent"],
+            })
+        return result
+    except Exception as e:
+        print(f"load_records error: {e}")
+        return []
 
 def save_records(records):
-    with open(RECORDS_FILE, "w", encoding="utf-8") as f:
-        json.dump(records, f, ensure_ascii=False, indent=2)
+    try:
+        conn = get_db()
+        cur = conn.cursor()
+        for rec in records:
+            cur.execute("""
+                INSERT INTO records (key, region, date, expect, based_on, long_miss, frequent_next, next_expect, actual_zodiacs, hit_long_miss, hit_frequent)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                ON CONFLICT (key) DO UPDATE SET
+                    next_expect = EXCLUDED.next_expect,
+                    actual_zodiacs = EXCLUDED.actual_zodiacs,
+                    hit_long_miss = EXCLUDED.hit_long_miss,
+                    hit_frequent = EXCLUDED.hit_frequent
+            """, (
+                rec.get("key"),
+                rec.get("region"),
+                rec.get("date"),
+                rec.get("expect"),
+                rec.get("based_on"),
+                json.dumps(rec.get("long_miss", []), ensure_ascii=False),
+                json.dumps(rec.get("frequent_next", []), ensure_ascii=False),
+                rec.get("next_expect"),
+                json.dumps(rec.get("actual_zodiacs"), ensure_ascii=False) if rec.get("actual_zodiacs") else None,
+                rec.get("hit_long_miss"),
+                rec.get("hit_frequent"),
+            ))
+        conn.commit()
+        cur.close()
+        conn.close()
+    except Exception as e:
+        print(f"save_records error: {e}")
 
 def get_macau_latest():
     try:
@@ -1355,5 +1429,8 @@ def records_page():
         count_summary_2026="",
     )
 
+init_db()
+
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000) #1111
+    port = int(os.environ.get("PORT", 5000))
+    app.run(debug=False, host="0.0.0.0", port=port)
