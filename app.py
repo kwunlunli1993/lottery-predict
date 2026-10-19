@@ -460,6 +460,7 @@ tr:nth-child(even) { background: #f9f9f9; }
 .recommend h3 { margin: 10px 0 4px 0; font-size: 0.95em; color: #333; }
 .note { color: #888; font-size: 0.85em; margin-top: 20px; text-align: center; }
 h2 { margin: 0 0 8px 0; font-size: 1.05em; }
+#latest-card h2 { font-size: 1.4em; margin-bottom: 12px; }
 .next-date { position: absolute; top: 10px; right: 12px; font-size: 0.9em; font-weight: bold; color: #333; }
 .count-summary { position: absolute; top: 10px; right: 12px; font-size: 0.85em; font-weight: bold; color: #333; background: #f0f0f0; padding: 4px 8px; border-radius: 4px; }
 .count-green { color: #27ae60; font-weight: 900; }
