@@ -448,6 +448,14 @@ table { width: 100%; border-collapse: collapse; margin-top: 6px; font-size: 0.9e
 th, td { border: 1px solid #ddd; padding: 6px; text-align: center; }
 th { background: #4a90d9; color: white; }
 tr:nth-child(even) { background: #f9f9f9; }
+#macau-frame table, #oldmacau-frame table, #hk-frame table { table-layout: fixed; }
+#macau-frame th:nth-child(1), #oldmacau-frame th:nth-child(1), #hk-frame th:nth-child(1) { width: 12%; }
+#macau-frame th:nth-child(2), #oldmacau-frame th:nth-child(2), #hk-frame th:nth-child(2) { width: 10%; }
+#macau-frame th:nth-child(3), #oldmacau-frame th:nth-child(3), #hk-frame th:nth-child(3) { width: 10%; }
+#macau-frame th:nth-child(4), #oldmacau-frame th:nth-child(4), #hk-frame th:nth-child(4) { width: 22%; }
+#macau-frame th:nth-child(5), #oldmacau-frame th:nth-child(5), #hk-frame th:nth-child(5) { width: 26%; }
+#macau-frame th:nth-child(6), #oldmacau-frame th:nth-child(6), #hk-frame th:nth-child(6) { width: 10%; }
+#macau-frame th:nth-child(7), #oldmacau-frame th:nth-child(7), #hk-frame th:nth-child(7) { width: 10%; }
 .hot { color: #ff1a1a; font-weight: 900; font-size: 1.3em; text-shadow: 0 0 1px #ff1a1a; }
 .zodiac-hot { color: #ff1a1a; font-weight: 900; font-size: 1.2em; text-shadow: 0 0 1px #ff1a1a; }
 .green-hot { color: #27ae60; font-weight: 900; font-size: 1.2em; text-shadow: 0 0 1px #27ae60; }
