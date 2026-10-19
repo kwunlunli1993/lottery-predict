@@ -455,13 +455,30 @@ h2 { margin: 0 0 8px 0; font-size: 1.05em; }
 .screenshot-btns button:disabled { opacity: 0.6; cursor: not-allowed; }
 @media (max-width: 768px) {
   body { margin: 5px; }
-  h1 { font-size: 1.5em; }
+  h1 { font-size: 1.4em; margin-top: 50px; }
   .top-row, .row { flex-direction: column; }
   .top-row .card, .row .card { min-width: 100%; }
-  table { font-size: 0.8em; }
-  th, td { padding: 4px; }
-  #export-btn, #lang-btn { padding: 6px 10px; font-size: 0.8em; }
+  table { font-size: 0.75em; }
+  th, td { padding: 3px; }
+  #export-btn, #lang-btn { 
+    padding: 6px 10px; 
+    font-size: 0.75em; 
+    position: static;
+    margin: 4px;
+  }
+  #lang-btn { float: left; }
+  #export-btn { float: right; }
+  .nav { 
+    margin-top: 40px;
+    gap: 4px;
+  }
+  .nav a { 
+    padding: 6px 10px; 
+    font-size: 0.8em; 
+  }
   .count-summary { position: static; margin-top: 8px; display: inline-block; }
+  .screenshot-btns { margin-top: 8px; }
+  .screenshot-btns button { padding: 6px 10px; font-size: 0.8em; }
 }
 </style>
 </head>
