@@ -408,7 +408,7 @@ def build_ball_display(open_code, zodiac, wave):
 
 HTML = """
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-Hans">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -471,7 +471,7 @@ h2 { margin: 0 0 8px 0; font-size: 1.05em; }
 .screenshot-btns button { border: none; padding: 8px 14px; font-size: 0.9em; font-weight: bold; border-radius: 6px; cursor: pointer; color: white; }
 .screenshot-btns button:hover { opacity: 0.85; }
 .screenshot-btns button:disabled { opacity: 0.6; cursor: not-allowed; }
-.ball-row { display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap; margin: 10px 0; }
+.ball-row { display: flex; align-items: center; justify-content: flex-start; gap: 6px; flex-wrap: wrap; margin: 10px 0; }
 .ball-item { display: flex; flex-direction: column; align-items: center; }
 .ball { width: 42px; height: 42px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.1em; color: white; }
 .ball-red { background: #e74c3c; }
@@ -479,8 +479,8 @@ h2 { margin: 0 0 8px 0; font-size: 1.05em; }
 .ball-green { background: #27ae60; }
 .ball-zodiac { font-size: 0.85em; margin-top: 4px; font-weight: bold; }
 .ball-plus { font-size: 1.5em; font-weight: bold; color: #333; margin: 0 4px; }
-.latest-info { text-align: center; margin-bottom: 8px; }
-.screenshot-latest-btn { background: #e74c3c; color: white; border: none; padding: 6px 12px; font-size: 0.85em; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 8px; }
+.latest-info { text-align: left; margin-bottom: 8px; }
+.screenshot-latest-btn { position: absolute; top: 10px; right: 12px; background: #e74c3c; color: white; border: none; padding: 6px 12px; font-size: 0.85em; font-weight: bold; border-radius: 6px; cursor: pointer; }
 .screenshot-latest-btn:hover { opacity: 0.85; }
 @media (max-width: 768px) {
   body { margin: 5px; }
@@ -509,12 +509,13 @@ h2 { margin: 0 0 8px 0; font-size: 1.05em; }
   .screenshot-btns { margin-top: 8px; }
   .screenshot-btns button { padding: 6px 10px; font-size: 0.8em; }
   .ball { width: 36px; height: 36px; font-size: 1em; }
+  .screenshot-latest-btn { position: static; margin-top: 8px; }
 }
 </style>
 </head>
 <body>
-<button id="lang-btn" onclick="toggleLang()">簡體</button>
-<button id="export-btn" onclick="exportImage()">複製圖片</button>
+<button id="lang-btn" onclick="toggleLang()">繁體</button>
+<button id="export-btn" onclick="exportImage()">複製預測</button>
 
 <div class="container">
 <div id="capture-area">
@@ -535,7 +536,7 @@ h2 { margin: 0 0 8px 0; font-size: 1.05em; }
       <p style="margin:4px 0;">期號：<b>{{ latest.expect }}</b>　時間：{{ latest.openTime }}</p>
     </div>
     {{ ball_display|safe }}
-    <button class="screenshot-latest-btn" onclick="exportLatest(this)">截圖中獎號碼</button>
+    <button class="screenshot-latest-btn" id="latest-btn" onclick="exportLatest(this)">複製賽果</button>
     {% else %}
     <p>無法取得最新數據</p>
     {% endif %}
@@ -883,19 +884,25 @@ h2 { margin: 0 0 8px 0; font-size: 1.05em; }
 </div>
 
 <script>
-let isTraditional = true;
-const converter = OpenCC.Converter({ from: 'tw', to: 'cn' });
-const converterBack = OpenCC.Converter({ from: 'cn', to: 'tw' });
+let isTraditional = false;
+const converter = OpenCC.Converter({ from: 'cn', to: 'tw' });
+const converterBack = OpenCC.Converter({ from: 'tw', to: 'cn' });
+
+window.onload = function() {
+  if (!isTraditional) {
+    walkAndConvert(document.body, converterBack);
+  }
+};
 
 function toggleLang() {
   const btn = document.getElementById('lang-btn');
   const body = document.body;
   if (isTraditional) {
-    walkAndConvert(body, converter);
+    walkAndConvert(body, converterBack);
     btn.innerText = '繁體';
     isTraditional = false;
   } else {
-    walkAndConvert(body, converterBack);
+    walkAndConvert(body, converter);
     btn.innerText = '簡體';
     isTraditional = true;
   }
@@ -988,8 +995,8 @@ function exportFrame(frameId, btn) {
 
 function exportLatest(btn) {
   const originalText = btn.innerText;
+  btn.style.display = 'none';
   btn.disabled = true;
-  btn.innerText = '截圖中...';
 
   const area = document.getElementById('latest-card');
   html2canvas(area, {
@@ -997,6 +1004,7 @@ function exportLatest(btn) {
     scale: 2,
     useCORS: true
   }).then(canvas => {
+    btn.style.display = 'block';
     canvas.toBlob(blob => {
       const item = new ClipboardItem({ 'image/png': blob });
       navigator.clipboard.write([item]).then(() => {
@@ -1012,6 +1020,7 @@ function exportLatest(btn) {
       });
     }, 'image/png');
   }).catch(err => {
+    btn.style.display = 'block';
     alert('截圖失敗：' + err);
     btn.innerText = originalText;
     btn.disabled = false;
