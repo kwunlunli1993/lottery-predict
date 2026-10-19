@@ -388,6 +388,24 @@ def format_numbers_with_color(num_str, hot_set, cold_set):
             parts.append(n)
     return "、".join(parts)
 
+def build_ball_display(open_code, zodiac, wave):
+    if not open_code:
+        return ""
+    codes = [c.strip() for c in str(open_code).split(",") if c.strip()]
+    zodiacs = [normalize_zodiac(z.strip()) for z in str(zodiac).split(",") if z.strip()] if zodiac else []
+    waves = [w.strip().lower() for w in str(wave).split(",") if w.strip()] if wave else []
+    
+    html = '<div class="ball-row">'
+    for i, code in enumerate(codes):
+        w = waves[i] if i < len(waves) else "red"
+        z = zodiacs[i] if i < len(zodiacs) else ""
+        color_class = {"red": "ball-red", "blue": "ball-blue", "green": "ball-green"}.get(w, "ball-red")
+        if i == 6:
+            html += '<span class="ball-plus">+</span>'
+        html += f'<div class="ball-item"><div class="ball {color_class}">{code}</div><div class="ball-zodiac">{z}</div></div>'
+    html += '</div>'
+    return html
+
 HTML = """
 <!DOCTYPE html>
 <html lang="zh-Hant">
@@ -453,6 +471,17 @@ h2 { margin: 0 0 8px 0; font-size: 1.05em; }
 .screenshot-btns button { border: none; padding: 8px 14px; font-size: 0.9em; font-weight: bold; border-radius: 6px; cursor: pointer; color: white; }
 .screenshot-btns button:hover { opacity: 0.85; }
 .screenshot-btns button:disabled { opacity: 0.6; cursor: not-allowed; }
+.ball-row { display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap; margin: 10px 0; }
+.ball-item { display: flex; flex-direction: column; align-items: center; }
+.ball { width: 42px; height: 42px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.1em; color: white; }
+.ball-red { background: #e74c3c; }
+.ball-blue { background: #3498db; }
+.ball-green { background: #27ae60; }
+.ball-zodiac { font-size: 0.85em; margin-top: 4px; font-weight: bold; }
+.ball-plus { font-size: 1.5em; font-weight: bold; color: #333; margin: 0 4px; }
+.latest-info { text-align: center; margin-bottom: 8px; }
+.screenshot-latest-btn { background: #e74c3c; color: white; border: none; padding: 6px 12px; font-size: 0.85em; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 8px; }
+.screenshot-latest-btn:hover { opacity: 0.85; }
 @media (max-width: 768px) {
   body { margin: 5px; }
   h1 { font-size: 1.4em; margin-top: 50px; }
@@ -479,6 +508,7 @@ h2 { margin: 0 0 8px 0; font-size: 1.05em; }
   .count-summary { position: static; margin-top: 8px; display: inline-block; }
   .screenshot-btns { margin-top: 8px; }
   .screenshot-btns button { padding: 6px 10px; font-size: 0.8em; }
+  .ball { width: 36px; height: 36px; font-size: 1em; }
 }
 </style>
 </head>
@@ -498,12 +528,14 @@ h2 { margin: 0 0 8px 0; font-size: 1.05em; }
 
 {% if region != 'records' %}
 <div class="top-row">
-  <div class="card">
-    <h2>最新一期</h2>
+  <div class="card" id="latest-card">
+    <h2>最新一期中獎號碼</h2>
     {% if latest %}
-    <p>期號：<b>{{ latest.expect }}</b>　時間：{{ latest.openTime }}</p>
-    <p>號碼：{{ latest.openCode }}</p>
-    <p>生肖：{{ latest.zodiac }}</p>
+    <div class="latest-info">
+      <p style="margin:4px 0;">期號：<b>{{ latest.expect }}</b>　時間：{{ latest.openTime }}</p>
+    </div>
+    {{ ball_display|safe }}
+    <button class="screenshot-latest-btn" onclick="exportLatest(this)">截圖中獎號碼</button>
     {% else %}
     <p>無法取得最新數據</p>
     {% endif %}
@@ -954,6 +986,38 @@ function exportFrame(frameId, btn) {
   });
 }
 
+function exportLatest(btn) {
+  const originalText = btn.innerText;
+  btn.disabled = true;
+  btn.innerText = '截圖中...';
+
+  const area = document.getElementById('latest-card');
+  html2canvas(area, {
+    backgroundColor: '#ffffff',
+    scale: 2,
+    useCORS: true
+  }).then(canvas => {
+    canvas.toBlob(blob => {
+      const item = new ClipboardItem({ 'image/png': blob });
+      navigator.clipboard.write([item]).then(() => {
+        btn.innerText = '已複製！';
+        setTimeout(() => {
+          btn.innerText = originalText;
+          btn.disabled = false;
+        }, 1500);
+      }).catch(err => {
+        alert('複製失敗：' + err);
+        btn.innerText = originalText;
+        btn.disabled = false;
+      });
+    }, 'image/png');
+  }).catch(err => {
+    alert('截圖失敗：' + err);
+    btn.innerText = originalText;
+    btn.disabled = false;
+  });
+}
+
 setInterval(function() {
   location.reload();
 }, 5 * 60 * 1000);
@@ -1146,6 +1210,14 @@ def process_data(latest, records_all, records_2026, region):
     count_summary = make_count_summary(next_counter)
     count_summary_2026 = make_count_summary(next_counter_2026) if next_counter_2026 else ""
 
+    ball_display = ""
+    if latest:
+        ball_display = build_ball_display(
+            latest.get("openCode", ""),
+            latest.get("zodiac", ""),
+            latest.get("wave", "")
+        )
+
     return {
         "latest": latest,
         "next_date": get_next_draw_date(latest, region == "hk"),
@@ -1167,6 +1239,7 @@ def process_data(latest, records_all, records_2026, region):
         "cold_numbers": cold_numbers,
         "count_summary": count_summary,
         "count_summary_2026": count_summary_2026,
+        "ball_display": ball_display,
     }
 
 @app.route("/")
@@ -1207,6 +1280,7 @@ def old_macau():
         "openTime": old_item.get("openTime"),
         "openCode": old_item.get("openCode"),
         "zodiac": normalize_zodiac(old_item.get("zodiac")),
+        "wave": old_item.get("wave", ""),
     }
 
     records_all = []
@@ -1269,6 +1343,7 @@ def hk():
         "openTime": hk_item.get("openTime"),
         "openCode": hk_item.get("openCode"),
         "zodiac": normalize_zodiac(hk_item.get("zodiac")),
+        "wave": hk_item.get("wave", ""),
     }
 
     records_all = []
@@ -1449,6 +1524,7 @@ def records_page():
         cold_numbers=[],
         count_summary="",
         count_summary_2026="",
+        ball_display="",
     )
 
 init_db()
