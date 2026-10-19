@@ -551,7 +551,7 @@ h2 { margin: 0 0 8px 0; font-size: 1.05em; }
     <h2>最新一期中獎號碼</h2>
     {% if latest %}
     <div class="latest-info">
-      <p>期號：<b>{{ latest.expect }}</b>　時間：{{ latest.openTime }}</p>
+      <p><b>期號</b>：<b>{{ latest.expect }}</b>　<b>時間</b>：{{ latest.openTime }}</p>
     </div>
     {{ ball_display|safe }}
     {% else %}
@@ -589,13 +589,14 @@ h2 { margin: 0 0 8px 0; font-size: 1.05em; }
         <p style="margin:4px 0;">目前沒有</p>
       {% endif %}
     </div>
-    <p style="font-size:0.8em; color:#888; margin-top:8px;">數據僅供參考，彩票結果隨機，過往統計不代表未來結果。</p>
+    <p style="font-size:0.8em; color:#666; margin-top:8px;">熱門號碼（紅色）出現次數較多，冷門號碼（藍色）較少出現。</p>
+    <p style="font-size:0.8em; color:#888; margin-top:4px;">數據僅供參考，彩票結果隨機，過往統計不代表未來結果。</p>
   </div>
 </div>
 
 <div class="card">
   <h2>近 50 期號碼統計</h2>
-  <p style="font-size:0.85em; color:#666; margin:0 0 6px;">熱門號碼（紅色）出現次數較多，冷門號碼（藍色）較少出現</p>
+  <p style="font-size:0.85em; color:#666; margin:0 0 6px;">熱門號碼（紅色）出現次數較多，冷門號碼（藍色）較少出現。</p>
   <div class="number-grid">
     {% for num in hot_numbers %}
     <span class="number-item hot-num">{{ "%02d"|format(num) }}</span>
