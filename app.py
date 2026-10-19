@@ -258,6 +258,14 @@ def get_next_draw_date(latest, is_hk=False):
     except:
         return ""
 
+def get_next_expect(latest):
+    if not latest or not latest.get("expect"):
+        return ""
+    try:
+        return str(int(latest["expect"]) + 1)
+    except:
+        return ""
+
 def fill_zodiac_by_year(open_code, expect):
     year = None
     if expect and len(str(expect)) >= 4:
@@ -456,8 +464,10 @@ h2 { margin: 0 0 8px 0; font-size: 1.05em; }
 .next-date { position: absolute; top: 10px; right: 12px; font-size: 0.9em; font-weight: bold; color: #333; }
 .count-summary { position: absolute; top: 10px; right: 12px; font-size: 0.85em; font-weight: bold; color: #333; background: #f0f0f0; padding: 4px 8px; border-radius: 4px; }
 .count-green { color: #27ae60; font-weight: 900; }
-#export-btn { position: fixed; top: 10px; right: 10px; background: #4a90d9; color: white; border: none; padding: 8px 14px; font-size: 0.9em; font-weight: bold; border-radius: 6px; cursor: pointer; z-index: 1000; box-shadow: 0 2px 6px rgba(0,0,0,.2); }
+#export-btn { position: fixed; top: 50px; right: 10px; background: #4a90d9; color: white; border: none; padding: 8px 14px; font-size: 0.9em; font-weight: bold; border-radius: 6px; cursor: pointer; z-index: 1000; box-shadow: 0 2px 6px rgba(0,0,0,.2); }
 #export-btn:hover { background: #357abd; }
+#export-latest-btn { position: fixed; top: 10px; right: 10px; background: #e74c3c; color: white; border: none; padding: 8px 14px; font-size: 0.9em; font-weight: bold; border-radius: 6px; cursor: pointer; z-index: 1000; box-shadow: 0 2px 6px rgba(0,0,0,.2); }
+#export-latest-btn:hover { opacity: 0.85; }
 #lang-btn { position: fixed; top: 10px; left: 10px; background: #5cb85c; color: white; border: none; padding: 8px 14px; font-size: 0.9em; font-weight: bold; border-radius: 6px; cursor: pointer; z-index: 1000; box-shadow: 0 2px 6px rgba(0,0,0,.2); }
 #lang-btn:hover { background: #4cae4c; }
 #capture-area { background: #f5f5f5; padding: 10px; }
@@ -471,32 +481,32 @@ h2 { margin: 0 0 8px 0; font-size: 1.05em; }
 .screenshot-btns button { border: none; padding: 8px 14px; font-size: 0.9em; font-weight: bold; border-radius: 6px; cursor: pointer; color: white; }
 .screenshot-btns button:hover { opacity: 0.85; }
 .screenshot-btns button:disabled { opacity: 0.6; cursor: not-allowed; }
-.ball-row { display: flex; align-items: center; justify-content: flex-start; gap: 6px; flex-wrap: wrap; margin: 10px 0; }
+.ball-row { display: flex; align-items: center; justify-content: flex-start; gap: 10px; flex-wrap: wrap; margin: 15px 0; }
 .ball-item { display: flex; flex-direction: column; align-items: center; }
-.ball { width: 42px; height: 42px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.1em; color: white; }
+.ball { width: 56px; height: 56px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.4em; color: white; }
 .ball-red { background: #e74c3c; }
 .ball-blue { background: #3498db; }
 .ball-green { background: #27ae60; }
-.ball-zodiac { font-size: 0.85em; margin-top: 4px; font-weight: bold; }
-.ball-plus { font-size: 1.5em; font-weight: bold; color: #333; margin: 0 4px; }
-.latest-info { text-align: left; margin-bottom: 8px; }
-.screenshot-latest-btn { position: absolute; top: 10px; right: 12px; background: #e74c3c; color: white; border: none; padding: 6px 12px; font-size: 0.85em; font-weight: bold; border-radius: 6px; cursor: pointer; }
-.screenshot-latest-btn:hover { opacity: 0.85; }
+.ball-zodiac { font-size: 1em; margin-top: 6px; font-weight: bold; }
+.ball-plus { font-size: 2em; font-weight: bold; color: #333; margin: 0 6px; }
+.latest-info { text-align: left; margin-bottom: 8px; font-size: 1.1em; }
+.latest-info p { margin: 6px 0; }
 @media (max-width: 768px) {
   body { margin: 5px; }
-  h1 { font-size: 1.4em; margin-top: 50px; }
+  h1 { font-size: 1.4em; margin-top: 90px; }
   .top-row, .row { flex-direction: column; }
   .top-row .card, .row .card { min-width: 100%; }
   table { font-size: 0.75em; }
   th, td { padding: 3px; }
-  #export-btn, #lang-btn { 
+  #export-btn, #export-latest-btn, #lang-btn { 
     padding: 6px 10px; 
     font-size: 0.75em; 
     position: static;
     margin: 4px;
   }
   #lang-btn { float: left; }
-  #export-btn { float: right; }
+  #export-latest-btn { float: right; }
+  #export-btn { float: right; clear: right; }
   .nav { 
     margin-top: 40px;
     gap: 4px;
@@ -508,13 +518,13 @@ h2 { margin: 0 0 8px 0; font-size: 1.05em; }
   .count-summary { position: static; margin-top: 8px; display: inline-block; }
   .screenshot-btns { margin-top: 8px; }
   .screenshot-btns button { padding: 6px 10px; font-size: 0.8em; }
-  .ball { width: 36px; height: 36px; font-size: 1em; }
-  .screenshot-latest-btn { position: static; margin-top: 8px; }
+  .ball { width: 42px; height: 42px; font-size: 1.2em; }
 }
 </style>
 </head>
 <body>
 <button id="lang-btn" onclick="toggleLang()">繁體</button>
+<button id="export-latest-btn" onclick="exportLatest()">複製賽果</button>
 <button id="export-btn" onclick="exportImage()">複製預測</button>
 
 <div class="container">
@@ -533,18 +543,17 @@ h2 { margin: 0 0 8px 0; font-size: 1.05em; }
     <h2>最新一期中獎號碼</h2>
     {% if latest %}
     <div class="latest-info">
-      <p style="margin:4px 0;">期號：<b>{{ latest.expect }}</b>　時間：{{ latest.openTime }}</p>
+      <p>期號：<b>{{ latest.expect }}</b>　時間：{{ latest.openTime }}</p>
     </div>
     {{ ball_display|safe }}
-    <button class="screenshot-latest-btn" id="latest-btn" onclick="exportLatest(this)">複製賽果</button>
     {% else %}
     <p>無法取得最新數據</p>
     {% endif %}
   </div>
 
   <div class="card" id="recommend-card">
-    {% if next_date %}
-    <div class="next-date">{{ next_date }}</div>
+    {% if next_expect %}
+    <div class="next-date">期號：{{ next_expect }}　{{ next_date }}</div>
     {% endif %}
     <h2>王大師預測（{{ '新澳門' if region == 'macau' else '舊澳門' if region == 'oldmacau' else '香港' }}）</h2>
     <div class="recommend">
@@ -920,10 +929,12 @@ function walkAndConvert(node, converter) {
 
 function exportImage() {
   const btn = document.getElementById('export-btn');
+  const latestBtn = document.getElementById('export-latest-btn');
   const langBtn = document.getElementById('lang-btn');
   const navBtns = document.getElementById('nav-buttons');
   const originalText = btn.innerText;
   btn.style.display = 'none';
+  if (latestBtn) latestBtn.style.display = 'none';
   langBtn.style.display = 'none';
   if (navBtns) navBtns.style.display = 'none';
   btn.disabled = true;
@@ -935,6 +946,7 @@ function exportImage() {
     useCORS: true
   }).then(canvas => {
     btn.style.display = 'block';
+    if (latestBtn) latestBtn.style.display = 'block';
     langBtn.style.display = 'block';
     if (navBtns) navBtns.style.display = 'block';
     canvas.toBlob(blob => {
@@ -953,6 +965,7 @@ function exportImage() {
     }, 'image/png');
   }).catch(err => {
     btn.style.display = 'block';
+    if (latestBtn) latestBtn.style.display = 'block';
     langBtn.style.display = 'block';
     if (navBtns) navBtns.style.display = 'block';
     alert('截圖失敗：' + err);
@@ -993,9 +1006,14 @@ function exportFrame(frameId, btn) {
   });
 }
 
-function exportLatest(btn) {
+function exportLatest() {
+  const btn = document.getElementById('export-latest-btn');
+  const exportBtn = document.getElementById('export-btn');
+  const langBtn = document.getElementById('lang-btn');
   const originalText = btn.innerText;
   btn.style.display = 'none';
+  if (exportBtn) exportBtn.style.display = 'none';
+  langBtn.style.display = 'none';
   btn.disabled = true;
 
   const area = document.getElementById('latest-card');
@@ -1005,6 +1023,8 @@ function exportLatest(btn) {
     useCORS: true
   }).then(canvas => {
     btn.style.display = 'block';
+    if (exportBtn) exportBtn.style.display = 'block';
+    langBtn.style.display = 'block';
     canvas.toBlob(blob => {
       const item = new ClipboardItem({ 'image/png': blob });
       navigator.clipboard.write([item]).then(() => {
@@ -1021,6 +1041,8 @@ function exportLatest(btn) {
     }, 'image/png');
   }).catch(err => {
     btn.style.display = 'block';
+    if (exportBtn) exportBtn.style.display = 'block';
+    langBtn.style.display = 'block';
     alert('截圖失敗：' + err);
     btn.innerText = originalText;
     btn.disabled = false;
@@ -1230,6 +1252,7 @@ def process_data(latest, records_all, records_2026, region):
     return {
         "latest": latest,
         "next_date": get_next_draw_date(latest, region == "hk"),
+        "next_expect": get_next_expect(latest),
         "latest_zodiacs": latest_zodiacs,
         "appear": appear_list,
         "full_avg": full_avg,
@@ -1515,6 +1538,7 @@ def records_page():
         hk_kelly=hk_stats["kelly"],
         latest=None,
         next_date="",
+        next_expect="",
         long_miss_recs=[],
         frequent_next_recs=[],
         appear=[],
