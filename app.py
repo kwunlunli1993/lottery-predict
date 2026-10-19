@@ -244,28 +244,33 @@ HTML = """
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{{ title }}</title>
 <link rel="apple-touch-icon" href="https://i.imgur.com/2kwwDW8.jpeg">
-<meta property="og:title" content="王大师预测">
+<meta property="og:title" content="王大师六预测">
 <meta property="og:image" content="https://i.imgur.com/2kwwDW8.jpeg">
 <meta property="og:description" content="新澳門、舊澳門、香港六合彩生肖預測">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/full.js"></script>
 <style>
-body { font-family: "Microsoft JhengHei", sans-serif; margin: 10px; background: #f5f5f5; position: relative; }
+body { font-family: "Microsoft JhengHei", sans-serif; margin: 10px; background: #f5f5f5; position: relative; color: #222; transition: background 0.3s, color 0.3s; }
+body.dark { background: #1a1a1a; color: #e0e0e0; }
 .container { max-width: 1200px; margin: auto; }
 h1 { color: #222; text-align: left; font-size: 2em; font-weight: 900; margin: 8px 0 12px 0; letter-spacing: 1px; }
+body.dark h1 { color: #e0e0e0; }
 .nav { margin-bottom: 12px; display: flex; flex-wrap: wrap; gap: 8px; }
 .nav a { display: inline-block; padding: 8px 16px; font-size: 0.95em; font-weight: bold; color: white; text-decoration: none; border-radius: 6px; background: #4a90d9; }
 .nav a:hover { background: #357abd; }
 .nav a.active { background: #e74c3c; }
 .card { background: white; padding: 12px; margin: 8px 0; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,.1); position: relative; }
+body.dark .card { background: #2d2d2d; color: #e0e0e0; box-shadow: 0 1px 3px rgba(0,0,0,.3); }
 .top-row { display: flex; gap: 12px; margin: 12px 0; flex-wrap: wrap; }
 .top-row .card { flex: 1; min-width: 280px; }
 .row { display: flex; gap: 12px; margin: 12px 0; flex-wrap: wrap; }
 .row .card { flex: 1; min-width: 200px; }
 table { width: 100%; border-collapse: collapse; margin-top: 6px; font-size: 0.9em; }
 th, td { border: 1px solid #ddd; padding: 6px; text-align: center; }
+body.dark th, body.dark td { border-color: #444; }
 th { background: #4a90d9; color: white; }
 tr:nth-child(even) { background: #f9f9f9; }
+body.dark tr:nth-child(even) { background: #3a3a3a; }
 #macau-frame table, #oldmacau-frame table, #hk-frame table { table-layout: fixed; }
 #macau-frame th:nth-child(1), #oldmacau-frame th:nth-child(1), #hk-frame th:nth-child(1) { width: 12%; }
 #macau-frame th:nth-child(2), #oldmacau-frame th:nth-child(2), #hk-frame th:nth-child(2) { width: 10%; }
@@ -284,11 +289,15 @@ tr:nth-child(even) { background: #f9f9f9; }
 .recommend { font-size: 1em; line-height: 1.7; }
 .recommend .item { margin: 5px 0; }
 .recommend h3 { margin: 10px 0 4px 0; font-size: 0.95em; color: #333; }
+body.dark .recommend h3 { color: #ccc; }
 .note { color: #888; font-size: 0.85em; margin-top: 20px; text-align: center; }
+body.dark .note { color: #aaa; }
 h2 { margin: 0 0 8px 0; font-size: 1.05em; }
 #latest-card h2 { font-size: 1.4em; margin-bottom: 12px; }
 .next-date { position: absolute; top: 10px; right: 12px; font-size: 0.9em; font-weight: bold; color: #333; }
+body.dark .next-date { color: #ccc; }
 .count-summary { position: absolute; top: 10px; right: 12px; font-size: 0.85em; font-weight: bold; color: #333; background: #f0f0f0; padding: 4px 8px; border-radius: 4px; }
+body.dark .count-summary { background: #3a3a3a; color: #ccc; }
 .count-green { color: #27ae60; font-weight: 900; }
 #export-btn { position: fixed; top: 50px; right: 10px; background: #4a90d9; color: white; border: none; padding: 8px 14px; font-size: 0.9em; font-weight: bold; border-radius: 6px; cursor: pointer; z-index: 1000; box-shadow: 0 2px 6px rgba(0,0,0,.2); }
 #export-btn:hover { background: #357abd; }
@@ -296,11 +305,16 @@ h2 { margin: 0 0 8px 0; font-size: 1.05em; }
 #export-latest-btn:hover { opacity: 0.85; }
 #lang-btn { position: fixed; top: 10px; left: 10px; background: #5cb85c; color: white; border: none; padding: 8px 14px; font-size: 0.9em; font-weight: bold; border-radius: 6px; cursor: pointer; z-index: 1000; box-shadow: 0 2px 6px rgba(0,0,0,.2); }
 #lang-btn:hover { background: #4cae4c; }
+#dark-btn { position: fixed; top: 50px; left: 10px; background: #555; color: white; border: none; padding: 8px 14px; font-size: 0.9em; font-weight: bold; border-radius: 6px; cursor: pointer; z-index: 1000; box-shadow: 0 2px 6px rgba(0,0,0,.2); }
+#dark-btn:hover { background: #444; }
+body.dark #dark-btn { background: #888; }
 #capture-area { background: #f5f5f5; padding: 10px; }
+body.dark #capture-area { background: #1a1a1a; }
 .transition-table td:first-child { font-weight: bold; width: 60px; }
 .match-green { color: #27ae60; font-weight: bold; }
 .number-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
 .number-item { background: #f0f0f0; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 0.95em; }
+body.dark .number-item { background: #3a3a3a; color: #e0e0e0; }
 .number-item.hot-num { background: #ffe0e0; color: #e74c3c; }
 .number-item.cold-num { background: #e0f0ff; color: #3498db; }
 .screenshot-btns { margin-bottom: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
@@ -315,6 +329,7 @@ h2 { margin: 0 0 8px 0; font-size: 1.05em; }
 .ball-green { background: #27ae60; }
 .ball-zodiac { font-size: 1em; margin-top: 6px; font-weight: bold; }
 .ball-plus { font-size: 2em; font-weight: bold; color: #333; margin: 0 6px; }
+body.dark .ball-plus { color: #ccc; }
 .latest-info { text-align: left; margin-bottom: 8px; font-size: 1.1em; font-weight: bold; }
 .latest-info p { margin: 6px 0; }
 @media (max-width: 768px) {
@@ -324,8 +339,9 @@ h2 { margin: 0 0 8px 0; font-size: 1.05em; }
   .top-row .card, .row .card { min-width: 100%; }
   table { font-size: 0.75em; }
   th, td { padding: 3px; }
-  #export-btn, #export-latest-btn, #lang-btn { padding: 6px 10px; font-size: 0.75em; position: static; margin: 4px; }
+  #export-btn, #export-latest-btn, #lang-btn, #dark-btn { padding: 6px 10px; font-size: 0.75em; position: static; margin: 4px; }
   #lang-btn { float: left; }
+  #dark-btn { float: left; clear: left; }
   #export-latest-btn { float: right; }
   #export-btn { float: right; clear: right; }
   .nav { margin-top: 40px; gap: 4px; }
@@ -339,6 +355,7 @@ h2 { margin: 0 0 8px 0; font-size: 1.05em; }
 </head>
 <body>
 <button id="lang-btn" onclick="toggleLang()">繁體</button>
+<button id="dark-btn" onclick="toggleDark()">深色</button>
 <button id="export-latest-btn" onclick="exportLatest()">複製賽果</button>
 <button id="export-btn" onclick="exportImage()">複製預測</button>
 <div class="container">
@@ -471,14 +488,37 @@ h2 { margin: 0 0 8px 0; font-size: 1.05em; }
 </div>
 <script>
 let isTraditional = false;
+let isDark = localStorage.getItem('darkMode') === 'true';
 const converter = OpenCC.Converter({ from: 'cn', to: 'tw' });
 const converterBack = OpenCC.Converter({ from: 'tw', to: 'cn' });
-window.onload = function() { if (!isTraditional) walkAndConvert(document.body, converterBack); };
+
+window.onload = function() {
+  if (!isTraditional) walkAndConvert(document.body, converterBack);
+  if (isDark) {
+    document.body.classList.add('dark');
+    document.getElementById('dark-btn').innerText = '淺色';
+  }
+};
+
 function toggleLang() {
   const btn = document.getElementById('lang-btn');
   if (isTraditional) { walkAndConvert(document.body, converterBack); btn.innerText = '繁體'; isTraditional = false; }
   else { walkAndConvert(document.body, converter); btn.innerText = '簡體'; isTraditional = true; }
 }
+
+function toggleDark() {
+  const btn = document.getElementById('dark-btn');
+  isDark = !isDark;
+  if (isDark) {
+    document.body.classList.add('dark');
+    btn.innerText = '淺色';
+  } else {
+    document.body.classList.remove('dark');
+    btn.innerText = '深色';
+  }
+  localStorage.setItem('darkMode', isDark);
+}
+
 function walkAndConvert(node, converter) {
   if (node.nodeType === 3) node.textContent = converter(node.textContent);
   else for (let child of node.childNodes) walkAndConvert(child, converter);
@@ -487,17 +527,18 @@ function exportImage() {
   const btn = document.getElementById('export-btn');
   const latestBtn = document.getElementById('export-latest-btn');
   const langBtn = document.getElementById('lang-btn');
+  const darkBtn = document.getElementById('dark-btn');
   const navBtns = document.getElementById('nav-buttons');
   const originalText = btn.innerText;
-  btn.style.display = 'none'; if (latestBtn) latestBtn.style.display = 'none'; langBtn.style.display = 'none'; if (navBtns) navBtns.style.display = 'none'; btn.disabled = true;
-  html2canvas(document.getElementById('recommend-card') || document.getElementById('capture-area'), {backgroundColor: '#ffffff', scale: 2, useCORS: true}).then(canvas => {
-    btn.style.display = 'block'; if (latestBtn) latestBtn.style.display = 'block'; langBtn.style.display = 'block'; if (navBtns) navBtns.style.display = 'block';
+  btn.style.display = 'none'; if (latestBtn) latestBtn.style.display = 'none'; langBtn.style.display = 'none'; if (darkBtn) darkBtn.style.display = 'none'; if (navBtns) navBtns.style.display = 'none'; btn.disabled = true;
+  html2canvas(document.getElementById('recommend-card') || document.getElementById('capture-area'), {backgroundColor: isDark ? '#2d2d2d' : '#ffffff', scale: 2, useCORS: true}).then(canvas => {
+    btn.style.display = 'block'; if (latestBtn) latestBtn.style.display = 'block'; langBtn.style.display = 'block'; if (darkBtn) darkBtn.style.display = 'block'; if (navBtns) navBtns.style.display = 'block';
     canvas.toBlob(blob => { navigator.clipboard.write([new ClipboardItem({'image/png': blob})]).then(() => { btn.innerText = '已複製！'; setTimeout(() => { btn.innerText = originalText; btn.disabled = false; }, 1500); }).catch(err => { alert('複製失敗'); btn.innerText = originalText; btn.disabled = false; }); }, 'image/png');
-  }).catch(err => { btn.style.display = 'block'; if (latestBtn) latestBtn.style.display = 'block'; langBtn.style.display = 'block'; if (navBtns) navBtns.style.display = 'block'; alert('截圖失敗'); btn.innerText = originalText; btn.disabled = false; });
+  }).catch(err => { btn.style.display = 'block'; if (latestBtn) latestBtn.style.display = 'block'; langBtn.style.display = 'block'; if (darkBtn) darkBtn.style.display = 'block'; if (navBtns) navBtns.style.display = 'block'; alert('截圖失敗'); btn.innerText = originalText; btn.disabled = false; });
 }
 function exportFrame(frameId, btn) {
   const originalText = btn.innerText; btn.disabled = true; btn.innerText = '截圖中...';
-  html2canvas(document.getElementById(frameId), {backgroundColor: '#ffffff', scale: 2, useCORS: true}).then(canvas => {
+  html2canvas(document.getElementById(frameId), {backgroundColor: isDark ? '#2d2d2d' : '#ffffff', scale: 2, useCORS: true}).then(canvas => {
     canvas.toBlob(blob => { navigator.clipboard.write([new ClipboardItem({'image/png': blob})]).then(() => { btn.innerText = '已複製！'; setTimeout(() => { btn.innerText = originalText; btn.disabled = false; }, 1500); }).catch(err => { alert('複製失敗'); btn.innerText = originalText; btn.disabled = false; }); }, 'image/png');
   }).catch(err => { alert('截圖失敗'); btn.innerText = originalText; btn.disabled = false; });
 }
@@ -505,12 +546,13 @@ function exportLatest() {
   const btn = document.getElementById('export-latest-btn');
   const exportBtn = document.getElementById('export-btn');
   const langBtn = document.getElementById('lang-btn');
+  const darkBtn = document.getElementById('dark-btn');
   const originalText = btn.innerText;
-  btn.style.display = 'none'; if (exportBtn) exportBtn.style.display = 'none'; langBtn.style.display = 'none'; btn.disabled = true;
-  html2canvas(document.getElementById('latest-card'), {backgroundColor: '#ffffff', scale: 2, useCORS: true}).then(canvas => {
-    btn.style.display = 'block'; if (exportBtn) exportBtn.style.display = 'block'; langBtn.style.display = 'block';
+  btn.style.display = 'none'; if (exportBtn) exportBtn.style.display = 'none'; langBtn.style.display = 'none'; if (darkBtn) darkBtn.style.display = 'none'; btn.disabled = true;
+  html2canvas(document.getElementById('latest-card'), {backgroundColor: isDark ? '#2d2d2d' : '#ffffff', scale: 2, useCORS: true}).then(canvas => {
+    btn.style.display = 'block'; if (exportBtn) exportBtn.style.display = 'block'; langBtn.style.display = 'block'; if (darkBtn) darkBtn.style.display = 'block';
     canvas.toBlob(blob => { navigator.clipboard.write([new ClipboardItem({'image/png': blob})]).then(() => { btn.innerText = '已複製！'; setTimeout(() => { btn.innerText = originalText; btn.disabled = false; }, 1500); }).catch(err => { alert('複製失敗'); btn.innerText = originalText; btn.disabled = false; }); }, 'image/png');
-  }).catch(err => { btn.style.display = 'block'; if (exportBtn) exportBtn.style.display = 'block'; langBtn.style.display = 'block'; alert('截圖失敗'); btn.innerText = originalText; btn.disabled = false; });
+  }).catch(err => { btn.style.display = 'block'; if (exportBtn) exportBtn.style.display = 'block'; langBtn.style.display = 'block'; if (darkBtn) darkBtn.style.display = 'block'; alert('截圖失敗'); btn.innerText = originalText; btn.disabled = false; });
 }
 setInterval(function() { location.reload(); }, 5 * 60 * 1000);
 </script>
