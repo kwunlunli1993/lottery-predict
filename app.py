@@ -1560,27 +1560,7 @@ def records_page():
         ball_display="",
     )
 
-def fix_hk_record():
-    try:
-        conn = get_db()
-        cur = conn.cursor()
-        cur.execute("""
-            UPDATE records 
-            SET actual_zodiacs = NULL, 
-                next_expect = NULL, 
-                hit_long_miss = NULL, 
-                hit_frequent = NULL 
-            WHERE key = 'hk_2026112'
-        """)
-        conn.commit()
-        cur.close()
-        conn.close()
-        print("Fixed hk_2026112")
-    except Exception as e:
-        print(f"Fix error: {e}")
-
 init_db()
-fix_hk_record()
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
