@@ -317,6 +317,8 @@ body.dark #capture-area { background: #1a1a1a; }
 body.dark .number-item { background: #3a3a3a; color: #e0e0e0; }
 .number-item.hot-num { background: #ffe0e0; color: #e74c3c; }
 .number-item.cold-num { background: #e0f0ff; color: #3498db; }
+body.dark .number-item.hot-num { background: #5a2a2a; color: #ff6b6b; }
+body.dark .number-item.cold-num { background: #2a3a5a; color: #6bb3ff; }
 .screenshot-btns { margin-bottom: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
 .screenshot-btns button { border: none; padding: 8px 14px; font-size: 0.9em; font-weight: bold; border-radius: 6px; cursor: pointer; color: white; }
 .screenshot-btns button:hover { opacity: 0.85; }
@@ -397,13 +399,13 @@ body.dark .ball-plus { color: #ccc; }
         {% endfor %}
       {% else %}<p style="margin:4px 0;">目前沒有</p>{% endif %}
     </div>
-    <p style="font-size:0.8em; color:#444; margin-top:8px;">熱門號碼（紅色）出現次數較多，冷門號碼（藍色）較少出現。</p>
-    <p style="font-size:0.8em; color:#444; margin-top:4px;">數據僅供參考，彩票結果隨機，過往統計不代表未來結果。</p>
+    <p style="font-size:0.8em; margin-top:8px;">熱門號碼（紅色）出現次數較多，冷門號碼（藍色）較少出現。</p>
+    <p style="font-size:0.8em; margin-top:4px;">數據僅供參考，彩票結果隨機，過往統計不代表未來結果。</p>
   </div>
 </div>
 <div class="card">
   <h2>近 50 期號碼統計</h2>
-  <p style="font-size:0.85em; color:#444; margin:0 0 6px;">熱門號碼（紅色）出現次數較多，冷門號碼（藍色）較少出現。</p>
+  <p style="font-size:0.85em; margin:0 0 6px;">熱門號碼（紅色）出現次數較多，冷門號碼（藍色）較少出現。</p>
   <div class="number-grid">
     {% for num in hot_numbers %}<span class="number-item hot-num">{{ "%02d"|format(num) }}</span>{% endfor %}
     {% for num in cold_numbers %}<span class="number-item cold-num">{{ "%02d"|format(num) }}</span>{% endfor %}
@@ -467,19 +469,19 @@ body.dark .ball-plus { color: #ccc; }
 </div>
 <div class="card" id="macau-frame">
 <h2>新澳門預測記錄（自 2026-10-13）</h2>
-<p style="font-size:0.9em; color:#666;">總記錄：{{ macau_settled }} 筆　已開獎：{{ macau_settled }} 筆<br>遺漏回補命中率：{{ "%.1f"|format(macau_long_miss_rate) }}%（{{ macau_long_miss_hits }}/{{ macau_long_miss_total }}）<br>接續熱門命中率：{{ "%.1f"|format(macau_frequent_rate) }}%（{{ macau_frequent_hits }}/{{ macau_frequent_total }}）<br>總命中率：{{ "%.1f"|format(macau_total_rate) }}%（{{ macau_total_hits }}/{{ macau_total_predictions }}）<br>1/4 Kelly：{{ "%.1f"|format(macau_kelly) }}%</p>
+<p style="font-size:0.9em;">總記錄：{{ macau_settled }} 筆　已開獎：{{ macau_settled }} 筆<br>遺漏回補命中率：{{ "%.1f"|format(macau_long_miss_rate) }}%（{{ macau_long_miss_hits }}/{{ macau_long_miss_total }}）<br>接續熱門命中率：{{ "%.1f"|format(macau_frequent_rate) }}%（{{ macau_frequent_hits }}/{{ macau_frequent_total }}）<br>總命中率：{{ "%.1f"|format(macau_total_rate) }}%（{{ macau_total_hits }}/{{ macau_total_predictions }}）<br>1/4 Kelly：{{ "%.1f"|format(macau_kelly) }}%</p>
 <table><tr><th>日期</th><th>期號</th><th>遺漏回補</th><th>接續熱門</th><th>中獎生肖</th><th>遺漏回補命中</th><th>接續熱門命中</th></tr>
 {% for r in macau_records %}<tr><td>{{ r.date }}</td><td>{{ r.expect }}</td><td>{% if r.long_miss %}{% for z in r.long_miss %}<span class="zodiac-hot">{{ z }}</span>{% if not loop.last %}、{% endif %}{% endfor %}{% else %}/{% endif %}</td><td>{% if r.frequent_next %}{% set actual_set = r.actual_zodiacs | unique | list if r.actual_zodiacs else [] %}{% for item in r.frequent_next %}{% if item.zodiac in actual_set %}<span class="match-green">{{ item.zodiac }}({{ item.count }})</span>{% else %}{{ item.zodiac }}({{ item.count }}){% endif %}{% if not loop.last %}、{% endif %}{% endfor %}{% else %}/{% endif %}</td><td>{% if r.actual_zodiacs %}{% set long_set = r.long_miss | list %}{% set freq_set = r.frequent_next | map(attribute='zodiac') | list %}{% for z in r.actual_zodiacs %}{% if z in long_set %}<span class="zodiac-hot">{{ z }}</span>{% elif z in freq_set %}<span class="match-green">{{ z }}</span>{% else %}{{ z }}{% endif %}{% if not loop.last %}、{% endif %}{% endfor %}{% else %}<span class="zodiac-hot">未開獎</span>{% endif %}</td><td>{{ r.lm_text if r.actual_zodiacs else '/' }}</td><td>{{ r.fn_text if r.actual_zodiacs else '/' }}</td></tr>{% endfor %}
 </table></div>
 <div class="card" id="oldmacau-frame">
 <h2>舊澳門預測記錄（自 2026-10-13）</h2>
-<p style="font-size:0.9em; color:#666;">總記錄：{{ oldmacau_settled }} 筆　已開獎：{{ oldmacau_settled }} 筆<br>遺漏回補命中率：{{ "%.1f"|format(oldmacau_long_miss_rate) }}%（{{ oldmacau_long_miss_hits }}/{{ oldmacau_long_miss_total }}）<br>接續熱門命中率：{{ "%.1f"|format(oldmacau_frequent_rate) }}%（{{ oldmacau_frequent_hits }}/{{ oldmacau_frequent_total }}）<br>總命中率：{{ "%.1f"|format(oldmacau_total_rate) }}%（{{ oldmacau_total_hits }}/{{ oldmacau_total_predictions }}）<br>1/4 Kelly：{{ "%.1f"|format(oldmacau_kelly) }}%</p>
+<p style="font-size:0.9em;">總記錄：{{ oldmacau_settled }} 筆　已開獎：{{ oldmacau_settled }} 筆<br>遺漏回補命中率：{{ "%.1f"|format(oldmacau_long_miss_rate) }}%（{{ oldmacau_long_miss_hits }}/{{ oldmacau_long_miss_total }}）<br>接續熱門命中率：{{ "%.1f"|format(oldmacau_frequent_rate) }}%（{{ oldmacau_frequent_hits }}/{{ oldmacau_frequent_total }}）<br>總命中率：{{ "%.1f"|format(oldmacau_total_rate) }}%（{{ oldmacau_total_hits }}/{{ oldmacau_total_predictions }}）<br>1/4 Kelly：{{ "%.1f"|format(oldmacau_kelly) }}%</p>
 <table><tr><th>日期</th><th>期號</th><th>遺漏回補</th><th>接續熱門</th><th>中獎生肖</th><th>遺漏回補命中</th><th>接續熱門命中</th></tr>
 {% for r in oldmacau_records %}<tr><td>{{ r.date }}</td><td>{{ r.expect }}</td><td>{% if r.long_miss %}{% for z in r.long_miss %}<span class="zodiac-hot">{{ z }}</span>{% if not loop.last %}、{% endif %}{% endfor %}{% else %}/{% endif %}</td><td>{% if r.frequent_next %}{% set actual_set = r.actual_zodiacs | unique | list if r.actual_zodiacs else [] %}{% for item in r.frequent_next %}{% if item.zodiac in actual_set %}<span class="match-green">{{ item.zodiac }}({{ item.count }})</span>{% else %}{{ item.zodiac }}({{ item.count }}){% endif %}{% if not loop.last %}、{% endif %}{% endfor %}{% else %}/{% endif %}</td><td>{% if r.actual_zodiacs %}{% set long_set = r.long_miss | list %}{% set freq_set = r.frequent_next | map(attribute='zodiac') | list %}{% for z in r.actual_zodiacs %}{% if z in long_set %}<span class="zodiac-hot">{{ z }}</span>{% elif z in freq_set %}<span class="match-green">{{ z }}</span>{% else %}{{ z }}{% endif %}{% if not loop.last %}、{% endif %}{% endfor %}{% else %}<span class="zodiac-hot">未開獎</span>{% endif %}</td><td>{{ r.lm_text if r.actual_zodiacs else '/' }}</td><td>{{ r.fn_text if r.actual_zodiacs else '/' }}</td></tr>{% endfor %}
 </table></div>
 <div class="card" id="hk-frame">
 <h2>香港預測記錄（自 2026-10-13）</h2>
-<p style="font-size:0.9em; color:#666;">總記錄：{{ hk_settled }} 筆　已開獎：{{ hk_settled }} 筆<br>遺漏回補命中率：{{ "%.1f"|format(hk_long_miss_rate) }}%（{{ hk_long_miss_hits }}/{{ hk_long_miss_total }}）<br>接續熱門命中率：{{ "%.1f"|format(hk_frequent_rate) }}%（{{ hk_frequent_hits }}/{{ hk_frequent_total }}）<br>總命中率：{{ "%.1f"|format(hk_total_rate) }}%（{{ hk_total_hits }}/{{ hk_total_predictions }}）<br>1/4 Kelly：{{ "%.1f"|format(hk_kelly) }}%</p>
+<p style="font-size:0.9em;">總記錄：{{ hk_settled }} 筆　已開獎：{{ hk_settled }} 筆<br>遺漏回補命中率：{{ "%.1f"|format(hk_long_miss_rate) }}%（{{ hk_long_miss_hits }}/{{ hk_long_miss_total }}）<br>接續熱門命中率：{{ "%.1f"|format(hk_frequent_rate) }}%（{{ hk_frequent_hits }}/{{ hk_frequent_total }}）<br>總命中率：{{ "%.1f"|format(hk_total_rate) }}%（{{ hk_total_hits }}/{{ hk_total_predictions }}）<br>1/4 Kelly：{{ "%.1f"|format(hk_kelly) }}%</p>
 <table><tr><th>日期</th><th>期號</th><th>遺漏回補</th><th>接續熱門</th><th>中獎生肖</th><th>遺漏回補命中</th><th>接續熱門命中</th></tr>
 {% for r in hk_records %}<tr><td>{{ r.date }}</td><td>{{ r.expect }}</td><td>{% if r.long_miss %}{% for z in r.long_miss %}<span class="zodiac-hot">{{ z }}</span>{% if not loop.last %}、{% endif %}{% endfor %}{% else %}/{% endif %}</td><td>{% if r.frequent_next %}{% set actual_set = r.actual_zodiacs | unique | list if r.actual_zodiacs else [] %}{% for item in r.frequent_next %}{% if item.zodiac in actual_set %}<span class="match-green">{{ item.zodiac }}({{ item.count }})</span>{% else %}{{ item.zodiac }}({{ item.count }}){% endif %}{% if not loop.last %}、{% endif %}{% endfor %}{% else %}/{% endif %}</td><td>{% if r.actual_zodiacs %}{% set long_set = r.long_miss | list %}{% set freq_set = r.frequent_next | map(attribute='zodiac') | list %}{% for z in r.actual_zodiacs %}{% if z in long_set %}<span class="zodiac-hot">{{ z }}</span>{% elif z in freq_set %}<span class="match-green">{{ z }}</span>{% else %}{{ z }}{% endif %}{% if not loop.last %}、{% endif %}{% endfor %}{% else %}<span class="zodiac-hot">未開獎</span>{% endif %}</td><td>{{ r.lm_text if r.actual_zodiacs else '/' }}</td><td>{{ r.fn_text if r.actual_zodiacs else '/' }}</td></tr>{% endfor %}
 </table></div>
