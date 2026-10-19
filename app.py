@@ -249,7 +249,7 @@ def get_next_draw_date(latest, is_hk=False):
     try:
         dt = datetime.strptime(latest["openTime"][:10], "%Y-%m-%d")
         if is_hk:
-            next_dt = dt + timedelta(days=2)
+            next_dt = dt + timedelta(days=1)
             while next_dt.weekday() not in (1, 3, 5):
                 next_dt += timedelta(days=1)
         else:
@@ -335,15 +335,14 @@ def update_hit_rates(region, latest):
     for rec in records:
         if rec["region"] != region:
             continue
-        if rec.get("next_expect") is None:
-            if rec.get("expect") == current_expect:
-                rec["next_expect"] = current_expect
-                rec["actual_zodiacs"] = actual_list
-                long_miss_set = set(rec.get("long_miss", []))
-                frequent_set = {x["zodiac"] for x in rec.get("frequent_next", [])}
-                rec["hit_long_miss"] = bool(long_miss_set & actual_set) if long_miss_set else None
-                rec["hit_frequent"] = bool(frequent_set & actual_set) if frequent_set else None
-                updated = True
+        if rec.get("next_expect") is None and rec.get("expect") == current_expect:
+            rec["next_expect"] = current_expect
+            rec["actual_zodiacs"] = actual_list
+            long_miss_set = set(rec.get("long_miss", []))
+            frequent_set = {x["zodiac"] for x in rec.get("frequent_next", [])}
+            rec["hit_long_miss"] = bool(long_miss_set & actual_set) if long_miss_set else None
+            rec["hit_frequent"] = bool(frequent_set & actual_set) if frequent_set else None
+            updated = True
     if updated:
         save_records(records)
 
