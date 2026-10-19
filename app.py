@@ -244,7 +244,7 @@ HTML = """
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{{ title }}</title>
 <link rel="apple-touch-icon" href="https://i.imgur.com/2kwwDW8.jpeg">
-<meta property="og:title" content="王大师六预测">
+<meta property="og:title" content="王大师预测">
 <meta property="og:image" content="https://i.imgur.com/2kwwDW8.jpeg">
 <meta property="og:description" content="新澳門、舊澳門、香港六合彩生肖預測">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
