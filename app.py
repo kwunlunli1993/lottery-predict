@@ -247,6 +247,7 @@ HTML = """
 <meta property="og:title" content="王大师六预测">
 <meta property="og:image" content="https://i.imgur.com/2kwwDW8.jpeg">
 <meta property="og:description" content="新澳門、舊澳門、香港六合彩生肖預測">
+<meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/full.js"></script>
 <style>
@@ -334,6 +335,7 @@ body.dark .number-item.cold-num { background: #2a3a5a; color: #6bb3ff; }
 body.dark .ball-plus { color: #ccc; }
 .latest-info { text-align: left; margin-bottom: 8px; font-size: 1.1em; font-weight: bold; }
 .latest-info p { margin: 6px 0; }
+a[x-apple-data-detectors] { color: inherit !important; text-decoration: none !important; font-weight: inherit !important; }
 @media (max-width: 768px) {
   body { margin: 5px; }
   h1 { font-size: 1.4em; margin-top: 90px; }
